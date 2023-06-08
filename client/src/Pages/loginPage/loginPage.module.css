@@ -1,0 +1,39 @@
+.container {
+  background-color: #1e1e1e;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+}
+
+.form {
+display: flex;
+background-color: #724e91;
+flex-direction: column;
+padding: 60px;
+border-radius: 20px;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #FFFFFF;
+align-self: center;
+}
+
+p .link {
+ margin-left: 3px;
+
+}
+
+.link {
+text-decoration: none;
+font-size: 14px;
+color: #1e1e1e;
+align-self: center;
+}

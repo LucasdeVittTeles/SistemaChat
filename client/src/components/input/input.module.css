@@ -1,0 +1,31 @@
+.inputControl {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.inputControl label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.inputControl input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  border: 2px solid #724e91;
+  color: #1e1e1e;
+}
+
+.inputControl input:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
+}
+
+.inputControl span {
+  color: #1e1e1e;
+  font-size: 13px;
+}
