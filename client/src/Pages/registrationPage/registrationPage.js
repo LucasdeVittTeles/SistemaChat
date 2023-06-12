@@ -6,8 +6,7 @@ import axios from "axios";
 import { number, object, string } from "yup";
 import { validationMessage } from "../../constants/validationMessage";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
@@ -34,17 +33,20 @@ const RegistrationPage = () => {
   });
 
   const postRegistration = async (values) => {
-    try {
-      const data = await axios.post("http://localhost:5000/createUser", {
+    await axios
+      .post("http://localhost:5000/createUser", {
         email: values.email,
         password: values.password,
         name: values.name,
         gender: values.gender,
+      })
+      .then(() => {
+        navigate("/loginPage");
+        toast.success("Usuario cadastrado com sucesso.");
+      })
+      .catch((error) => {
+        toast.error("Falha ao tentar cadastrar usuário" + error.response.data.msg);
       });
-      navigate("/loginPage", { state: data });
-    } catch (error) {
-      toast.error("Falha ao tentar cadastrar usuário" + error);
-    }
   };
 
   const formik = useFormik({
@@ -57,7 +59,6 @@ const RegistrationPage = () => {
 
   return (
     <div className={styles.container}>
-      <ToastContainer />
       <div className={styles.content}>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
           <h1>Cadastro de usuario</h1>
@@ -98,6 +99,7 @@ const RegistrationPage = () => {
             alert={formik.errors.age}
           />
           <Button
+            type="sub"
             text="Cadastrar"
             backgroundColor={"#0CCE6B"}
             color={"#FFFFFF"}

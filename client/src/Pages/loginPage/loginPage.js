@@ -6,8 +6,7 @@ import axios from "axios";
 import { object, string } from "yup";
 import { validationMessage } from "../../constants/validationMessage";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -26,19 +25,19 @@ const LoginPage = () => {
   });
 
   const postLogin = async (values) => {
-    try {
-      const res = await axios.post("http://localhost:5000/login", {
+    await axios
+      .post("http://localhost:5000/login", {
         email: values.email,
         password: values.password,
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("user", data.data.id);
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error("Falha ao tentar login: " + error.response.data.msg);
       });
-      const data = res.data;
-      console.log(res)
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", data.id);
-      navigate("/");
-    } catch (error) {
-      toast.error("Falha ao tentar login" + error);
-    }
   };
 
   const formik = useFormik({
@@ -52,7 +51,6 @@ const LoginPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <ToastContainer />
         <form className={styles.form} onSubmit={formik.handleSubmit}>
           <h1>Login de usuario</h1>
           <Input
@@ -74,7 +72,7 @@ const LoginPage = () => {
             alert={formik.errors.password}
           />
           <p>
-            Nao esta cadastrado? 
+            Nao esta cadastrado?
             <Link className={styles.link} to="/registrationPage">
               Cadastre-se
             </Link>
