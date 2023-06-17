@@ -16,6 +16,7 @@ const RegistrationPage = () => {
     email: "",
     password: "",
     age: "",
+    gender: "",
   };
 
   const validations = object({
@@ -30,6 +31,7 @@ const RegistrationPage = () => {
       .required(validationMessage.msg1)
       .typeError(validationMessage.msg2)
       .positive(validationMessage.msg3),
+    gender: string().required(validationMessage.msg1),
   });
 
   const postRegistration = async (values) => {
@@ -37,6 +39,7 @@ const RegistrationPage = () => {
       .post("http://localhost:5000/createUser", {
         email: values.email,
         password: values.password,
+        age: values.age,
         name: values.name,
         gender: values.gender,
       })
@@ -45,7 +48,9 @@ const RegistrationPage = () => {
         toast.success("Usuario cadastrado com sucesso.");
       })
       .catch((error) => {
-        toast.error("Falha ao tentar cadastrar usuário" + error.response.data.msg);
+        toast.error(
+          "Falha ao tentar cadastrar usuário" + error.response.data.msg
+        );
       });
   };
 
@@ -98,6 +103,16 @@ const RegistrationPage = () => {
             handleOnChange={formik.handleChange}
             alert={formik.errors.age}
           />
+          <label htmlFor="gender">Genero</label>
+          <select
+            name="gender"
+            value={formik.values.gender}
+            onChange={formik.handleChange}
+          >
+            <option value="" select disabled hidden>Selecione um genero</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
           <Button
             type="sub"
             text="Cadastrar"
